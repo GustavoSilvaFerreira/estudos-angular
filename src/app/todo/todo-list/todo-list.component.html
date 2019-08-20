@@ -1,1 +1,16 @@
-<p>todo-list works!</p>
+<div *ngIf="getTodos().length > 0">
+  <h2>Lista de tarefas</h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item" *ngFor='let todo of getTodos()' [@addTodo]="addTodoState">
+      <div class="row justify-content-between">
+        <div class="col-4">
+          <input type="checkbox" />
+          {{ todo.description }}
+        </div>
+        <div class="col-4 text-right">
+          <a (click)="remove(todo)" class="btn btn-sm text-danger cursor-pointer"><i class="fa fa-remove"></i></a>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

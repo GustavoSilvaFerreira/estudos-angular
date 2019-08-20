@@ -1,1 +1,15 @@
-<p>add-todo works!</p>
+<form [formGroup]="todoForm" class="form-inline mt-4" novalidate>
+  <label class="sr-only" for="description">Tarefa</label>
+  <div class="input-group mb-2 mr-sm-2">
+    <div class="input-group-prepend">
+      <div class="input-group-text">Tarefa</div>
+    </div>
+    <input type="text" class="form-control" [class.is-invalid]="todoExists || (todoForm.get('description').invalid && todoForm.get('description').touched)" [class.is-valid]="todoForm.valid" formControlName="description" id="description" placeholder="Digite a tarefa">
+  </div>
+
+  <button (click)="addTodo()"  class="btn btn-primary mb-2" [disabled]="!formValid() || todoExists">add <i class="fa fa-plus"></i></button>
+</form>
+
+<div>
+  <app-message [message]="'Essa tarefa já existe'" [hidden]="!todoExists"></app-message>
+</div>
