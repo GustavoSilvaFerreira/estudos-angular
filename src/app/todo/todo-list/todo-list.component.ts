@@ -32,10 +32,21 @@ export class TodoListComponent implements OnInit {
   constructor(private todoService: TodoService) { }
 
   ngOnInit() {
+    for (let key = 0; key < sessionStorage.length; key++) {
+      const task = sessionStorage.key(key);
+      const done = sessionStorage.getItem(task);
+      let todo: Todo;
+      todo = {
+        id: 0,
+        description: task,
+        done: done === 'false' ? false : true
+      };
+      this.todoService.addTodo(todo);
+    }
   }
 
-  totalTodos() {
-    return this.todoService.getTodos().length;
+  totalTodos(done = null) {
+    return this.todoService.getTodos(done).length;
   }
 
   getTodos() {
