@@ -1,6 +1,5 @@
 import { Todo } from './todo.model';
 import { Injectable } from '@angular/core';
-import { timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +25,14 @@ export class TodoService {
   remove(todo: Todo) {
     this.todos = this.todos.filter((t) => {
       return t.id !== todo.id;
+    });
+  }
+
+  taskDone(todo: Todo) {
+    this.todos.map((t) => {
+      if(t.id === todo.id) {
+        t.done = t.done === false ? true : false;
+      }
     });
   }
 }

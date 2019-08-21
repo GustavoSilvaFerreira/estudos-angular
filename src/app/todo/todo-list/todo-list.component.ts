@@ -34,12 +34,20 @@ export class TodoListComponent implements OnInit {
   ngOnInit() {
   }
 
+  totalTodos() {
+    return this.todoService.getTodos().length;
+  }
+
   getTodos() {
     return this.todoService.getTodos();
   }
 
   remove(todo: Todo) {
     this.todoService.remove(todo);
+  }
+
+  taskDone(todo: Todo) {
+    this.todoService.taskDone(todo);
   }
 
 }
