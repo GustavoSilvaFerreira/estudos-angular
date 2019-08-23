@@ -21,6 +21,11 @@ export class LoginService {
     return this.user;
   }
 
+  clear() {
+    sessionStorage.clear();
+    this.user = undefined;
+  }
+
   login(user, password) {
     return this.httpClient.post<string>(`${URL_API}/login`, {
       usuario: user,
@@ -33,12 +38,11 @@ export class LoginService {
   }
 
   logout() {
-    sessionStorage.clear();
-    this.user = undefined;
     this.handleLogin();
   }
 
   handleLogin() {
+    this.clear();
     this.router.navigateByUrl('login');
   }
 }

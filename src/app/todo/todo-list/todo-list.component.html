@@ -1,4 +1,4 @@
-<div *ngIf="todos.length > 0" >
+<div *ngIf="todos?.length > 0" >
 
   <h2>Lista de tarefas: <span class="badge badge-secondary bg-orange">{{ totalTodos() }}</span>
     <p>
@@ -20,3 +20,5 @@
     </li>
   </ul>
 </div>
+
+<app-message [message]="['Não há tarefas para exibir!']" [hidden]="todos === undefined || todos?.length > 0"></app-message>

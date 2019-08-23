@@ -17,6 +17,10 @@ export class LoginComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+    if(this.loginService.isLoggedIn()) {
+      this.router.navigateByUrl('todo-list');
+    }
+
     this.formLogin = new FormGroup({
       user: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required, Validators.minLength(3)])
