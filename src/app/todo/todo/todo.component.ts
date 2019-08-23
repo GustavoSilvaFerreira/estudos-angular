@@ -1,7 +1,7 @@
 import { TodoService } from './../todo.service';
 import { Todo } from './../todo.model';
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/security/login/login.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
   selector: 'app-todo',
@@ -13,7 +13,7 @@ export class TodoComponent implements OnInit {
   todos: Todo[];
 
   constructor(private todoService: TodoService,
-              private loginService: LoginService) {}
+              private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.getTodos();
@@ -32,6 +32,7 @@ export class TodoComponent implements OnInit {
         if(response.ok) {
           todo._id = response.insertedId;
           this.todos.push(todo);
+          this.notificationService.notify('Tarefa adicionada com sucesso!');
         }
       });
   }
@@ -42,15 +43,17 @@ export class TodoComponent implements OnInit {
         if(response.ok) {
           const index = this.todos.indexOf(todo);
           this.todos.splice(index, 1);
+          this.notificationService.notify('Tarefa removida com sucesso!');
         }
       });
   }
 
   taskDone(todo: Todo) {
+    let status = todo.done === false ? 'feita' : 'não feita';
     this.todoService.taskDone(todo)
       .subscribe(() => {
         // loading
-
+        this.notificationService.notify(`Tarefa marcada como ${status}`);
       });
   }
 }

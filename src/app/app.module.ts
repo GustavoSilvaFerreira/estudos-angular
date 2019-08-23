@@ -1,3 +1,4 @@
+import { NotificationService } from './shared/notification.service';
 import { ApplicationErrorHandler } from './app.error-handler';
 import { ErrorHandler } from '@angular/core';
 import { SharedModule } from './shared/shared.module';
@@ -35,6 +36,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
   ],
   providers: [
     LoginService,
+    NotificationService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: ErrorHandler, useClass: ApplicationErrorHandler}
   ],

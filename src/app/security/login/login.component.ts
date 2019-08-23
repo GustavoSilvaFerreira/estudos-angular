@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginService } from './login.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
   userIncorrect: boolean;
 
   constructor(private loginService: LoginService,
-              private router: Router) { }
+              private router: Router,
+              private notificationService: NotificationService) { }
 
   ngOnInit() {
     if(this.loginService.isLoggedIn()) {
@@ -36,6 +38,7 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('token', response.token);
         sessionStorage.setItem('user', user);
         this.loginService.setUser(user);
+        this.notificationService.notify(`Bem vindo ${user}`);
         this.router.navigateByUrl('todo-list');
       }, (error) => {
         this.userIncorrect = true;
