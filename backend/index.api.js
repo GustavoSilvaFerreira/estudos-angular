@@ -102,7 +102,9 @@ async function main() {
                 // http://localhost:3000/v1/tasks?skip=1&limit=2
                 path: '/v1/tasks',
                 method: 'GET',
+
                 config: {
+                    // auth: false,
                     tags: ['api'],
                     description: 'Listar tarefas',
                     notes: 'Pode filtrar por descrição e página',
@@ -138,6 +140,7 @@ async function main() {
                 path: '/v1/tasks',
                 method: 'POST',
                 config: {
+                    // auth: false,
                     tags: ['api'],
                     description: 'Cadastrar tarefas',
                     notes: 'Cadastrar descrição da tarefa',
@@ -168,6 +171,7 @@ async function main() {
                 path: '/v1/tasks/{id}',
                 method: 'DELETE',
                 config: {
+                  // auth: false,
                     tags: ['api'],
                     description: 'Remover tarefas',
                     notes: 'Remover tarefa por ID',
@@ -195,6 +199,7 @@ async function main() {
                 path: '/v1/tasks/{id}',
                 method: 'PATCH',
                 config: {
+                  // auth: false,
                     tags: ['api'],
                     description: 'Atualizar tarefas',
                     notes: 'Atualiza tarefa parcialmente',
