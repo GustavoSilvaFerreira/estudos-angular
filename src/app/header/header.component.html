@@ -11,5 +11,15 @@
         </li>
       </ul>
     </div>
+
+    <div class="navbar-custom-menu">
+      <ul class="nav navbar-nav">
+        <li class="user user-menu text-white">
+          <span *ngIf="getUser()" >
+            Olá, {{ getUser() }} | <a (click)="logout()" class="cursor-pointer">Sair</a>
+          </span>
+        </li>
+      </ul>
+    </div>
   </nav>
 </header>
