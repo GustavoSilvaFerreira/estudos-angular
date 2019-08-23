@@ -1,6 +1,7 @@
 import { TodoService } from './../todo.service';
 import { Todo } from './../todo.model';
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from 'src/app/security/login/login.service';
 
 @Component({
   selector: 'app-todo',
@@ -9,18 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodoComponent implements OnInit {
 
-  todos: Todo[] = [];
+  todos: Todo[];
 
-  constructor(private todoService: TodoService) {}
+  constructor(private todoService: TodoService,
+              private loginService: LoginService) {}
 
   ngOnInit() {
     this.getTodos();
   }
 
-  async getTodos() {
-    await this.todoService.getTodos()
+  getTodos() {
+    this.todoService.getTodos()
       .subscribe((response) => {
         this.todos = response;
+      }, (error) => {
+        if(error.error.message === 'Expired token') {
+          this.loginService.handleLogin();
+        }
+        // erro: mostrar algum erro para usuário
+        console.log(error.error);
+
       });
   }
 
