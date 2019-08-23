@@ -1,3 +1,4 @@
+import { NotFoundComponent } from './not-found/not-found.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -11,7 +12,8 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'todo-list', loadChildren: () => import('./todo/todo.module').then(m => m.TodoModule),
                       canActivate: [LoggedinGuard],
-                      canLoad: [LoggedinGuard]}
+                      canLoad: [LoggedinGuard]},
+  {path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({
