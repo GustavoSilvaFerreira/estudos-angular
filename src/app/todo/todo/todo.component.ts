@@ -23,13 +23,6 @@ export class TodoComponent implements OnInit {
     this.todoService.getTodos()
       .subscribe((response) => {
         this.todos = response;
-      }, (error) => {
-        if(error.error.message === 'Expired token') {
-          this.loginService.handleLogin();
-        }
-        // erro: mostrar algum erro para usuário
-        console.log(error.error);
-
       });
   }
 
@@ -50,9 +43,6 @@ export class TodoComponent implements OnInit {
           const index = this.todos.indexOf(todo);
           this.todos.splice(index, 1);
         }
-      }, (error) => {
-        // erro: mostrar algum erro para usuário
-
       });
   }
 
@@ -61,9 +51,6 @@ export class TodoComponent implements OnInit {
       .subscribe(() => {
         // loading
 
-      }, (error) => {
-        // erro: mostrar algum erro para usuário
-        this.getTodos();
       });
   }
 }
