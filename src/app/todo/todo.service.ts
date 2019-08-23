@@ -1,5 +1,8 @@
 import { Todo } from './todo.model';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { URL_API } from './../../app.api';
 
 @Injectable({
   providedIn: 'root'
@@ -8,45 +11,22 @@ export class TodoService {
 
   todos: Todo[] = [];
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   addTodo(todo: Todo) {
-    const existsTodo = this.todos.filter((t) => {
-      return t.description === todo.description;
-    });
-
-    if(this.todos.length === 0 || existsTodo.length === 0) {
-      this.todos.push(todo);
-    }
-
-    this.todos.map((t) => {
-      t.id = this.todos.indexOf(t);
-      sessionStorage.setItem(t.description, t.done.toString());
-    });
+    return this.httpClient.post(`${URL_API}/tasks`, {description: todo.description, done: todo.done});
   }
 
-  getTodos(done = null) {
-    return this.todos.filter((t) => {
-      if(done === null) {
-        return t;
-      }
-      return t.done === done;
-    });
+  getTodos() {
+    return this.httpClient.get<Todo[]>(`${URL_API}/tasks`);
   }
 
   remove(todo: Todo) {
-    sessionStorage.removeItem(todo.description);
-    this.todos = this.todos.filter((t) => {
-      return t.id !== todo.id;
-    });
+    return this.httpClient.delete(`${URL_API}/tasks/${todo._id}`);
   }
 
   taskDone(todo: Todo) {
-    this.todos.map((t) => {
-      if(t.id === todo.id) {
-        t.done = t.done === false ? true : false;
-        sessionStorage.setItem(t.description, t.done.toString());
-      }
-    });
+    todo.done = todo.done === false ? true : false;
+    return this.httpClient.patch(`${URL_API}/tasks/${todo._id}`, {description: todo.description, done: todo.done});
   }
 }

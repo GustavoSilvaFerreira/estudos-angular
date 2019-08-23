@@ -1,8 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Todo } from '../todo.model';
-import { TodoService } from '../todo.service';
 
 @Component({
   selector: 'app-add-todo',
@@ -11,13 +10,16 @@ import { TodoService } from '../todo.service';
 })
 export class AddTodoComponent implements OnInit {
 
+  @Input() todos: Todo[] = [];
+  @Output() emitAdd = new EventEmitter<Todo>();
+
   todoForm: FormGroup;
   todo: Todo;
-  todoExists: boolean = false;
+  todoExists = false;
 
   resetTodo() {
     this.todo = {
-      id: 0,
+      _id: 0,
       description: '',
       done: false
     };
@@ -27,7 +29,7 @@ export class AddTodoComponent implements OnInit {
     this.todoForm.controls.description.reset();
   }
 
-  constructor(private todoService: TodoService) {}
+  constructor() {}
 
   ngOnInit() {
     this.todoForm = new FormGroup({
@@ -38,7 +40,7 @@ export class AddTodoComponent implements OnInit {
 
     this.todoForm.controls.description.valueChanges
     .subscribe((t) => {
-      this.todoExists = this.todoService.getTodos().filter((todo) => {
+      this.todoExists = this.todos.filter((todo) => {
         return todo.description === t;
       }).length > 0;
     });
@@ -52,7 +54,9 @@ export class AddTodoComponent implements OnInit {
 
   addTodo() {
     this.todo.description = this.todoForm.value.description;
-    this.todoService.addTodo(this.todo);
+
+    this.emitAdd.emit(this.todo);
+
     this.resetTodo();
     this.resetForm();
   }
