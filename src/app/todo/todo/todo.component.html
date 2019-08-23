@@ -1,7 +1,7 @@
 <div class="container">
-  <app-add-todo></app-add-todo>
+  <app-add-todo (emitAdd)="addTodo($event)" [todos]="todos"></app-add-todo>
 
-  <app-todo-list #todoList></app-todo-list>
+  <app-todo-list (emitRemove)="remove($event)" (emitTaskDone)="taskDone($event)" #todoList [todos]="todos"></app-todo-list>
 
-  <app-message [message]="['Não há tarefas para exibir!']" [hidden]="todoList.totalTodos() > 0"></app-message>
+  <app-message [message]="['Não há tarefas para exibir!']" [hidden]="todos.length > 0"></app-message>
 </div>

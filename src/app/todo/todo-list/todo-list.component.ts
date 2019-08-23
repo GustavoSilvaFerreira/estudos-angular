@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { TodoService } from '../todo.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Todo } from '../todo.model';
 
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
@@ -26,39 +25,36 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 })
 export class TodoListComponent implements OnInit {
 
-  todos: Todo[] = [];
+  @Input() todos: Todo[] = [];
+
+  @Output() emitRemove = new EventEmitter<Todo>();
+  @Output() emitTaskDone = new EventEmitter<Todo>();
+
   addTodoState = 'ready';
 
-  constructor(private todoService: TodoService) { }
+  constructor() { }
 
   ngOnInit() {
-    for (let key = 0; key < sessionStorage.length; key++) {
-      const task = sessionStorage.key(key);
-      const done = sessionStorage.getItem(task);
-      let todo: Todo;
-      todo = {
-        id: 0,
-        description: task,
-        done: done === 'false' ? false : true
-      };
-      this.todoService.addTodo(todo);
-    }
   }
 
   totalTodos(done = null) {
-    return this.todoService.getTodos(done).length;
-  }
+    // total de tarefas
+    if(done === null) {
+      return this.todos.length;
+    }
 
-  getTodos() {
-    return this.todoService.getTodos();
+    // total filtrado
+    return this.todos.filter((t) => {
+      return t.done === done;
+    }).length;
   }
 
   remove(todo: Todo) {
-    this.todoService.remove(todo);
+    this.emitRemove.emit(todo);
   }
 
   taskDone(todo: Todo) {
-    this.todoService.taskDone(todo);
+    this.emitTaskDone.emit(todo);
   }
 
 }

@@ -26,7 +26,7 @@ export class MessageComponent implements OnInit {
 
   messageStatus = 'ready';
   @Input() message: string;
-  @Input() hidden: boolean = true;
+  @Input() hidden = true;
 
   constructor() { }
 
