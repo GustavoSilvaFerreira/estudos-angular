@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
+.wrapper {
+  min-width: 340px;
+}
+
 .content-wrapper{
   /** Altura do rodapé tem que ser igual a isso aqui e vice-versa **/
 padding-bottom: 50px;

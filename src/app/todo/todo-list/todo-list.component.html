@@ -1,12 +1,14 @@
 <div *ngIf="todos?.length > 0" >
 
-  <h2>Lista de tarefas: <span class="badge badge-secondary bg-orange">{{ totalTodos() }}</span>
-    <span class="ml-2 pl-2 pr-2 pb-1 border rounded">
-      <small>Feitas: <span class="badge badge-secondary bg-success mr-2">{{ totalTodos(true) }}</span></small>
-      <small>Restantes: <span class="badge badge-secondary bg-danger">{{ totalTodos(false) }}</span></small>
-    </span>
+  <h2 class="text-center">Lista de tarefas: <span class="badge badge-secondary bg-orange mt-3 mb-2">{{ totalTodos() }}</span>
+    <div class="d-md-inline">
+      <span class="ml-sm-2 pl-2 pr-2 pb-1 border rounded">
+        <small>Feitas: <span class="badge badge-secondary bg-success mr-2">{{ totalTodos(true) }}</span></small>
+        <small>Restantes: <span class="badge badge-secondary bg-danger">{{ totalTodos(false) }}</span></small>
+      </span>
+    </div>
   </h2>
-  <ul class="list-group list-group-flush">
+  <ul class="list-group list-group-flush mt-3">
     <li class="list-group-item" *ngFor='let todo of todos' [@addTodo]="addTodoState">
       <div class="row justify-content-between">
         <div class="col-8 row align-self-start custom-control custom-checkbox">
