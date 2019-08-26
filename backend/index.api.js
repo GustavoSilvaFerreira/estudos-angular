@@ -31,6 +31,7 @@ const HapiJwt = require('hapi-auth-jwt2')
 const { ObjectID } = require('mongodb')
 
 const Db = require('./src/taskDb')
+const userDb = require('./src/userDb')
 
 const app = new Hapi.Server({
     port: process.env.PORT,
@@ -62,6 +63,10 @@ async function main() {
         const database = new Db()
         await database.connect()
         console.log('Database conectado!');
+
+        const databaseUsers = new userDb()
+        await databaseUsers.connect()
+        console.log('Database users conectado!');
 
         await app.register([
             HapiJwt,
@@ -256,6 +261,9 @@ async function main() {
                 },
                 async handler({payload: { usuario, senha }}) {
                     try {
+                        const user = databaseUsers.listar({name: usuario, password: senha});
+                        console.log(user);
+
                         if(usuario !== USER.usuario || senha !== USER.senha) {
                             return Boom.unauthorized()
                         }
