@@ -13,6 +13,8 @@ export class TodoComponent implements OnInit {
   todos: Todo[];
   loadingAdd = false;
 
+  todoRemover: Todo;
+
   constructor(private todoService: TodoService,
               private notificationService: NotificationService) {}
 
@@ -42,11 +44,19 @@ export class TodoComponent implements OnInit {
       });
   }
 
-  remove(todo: Todo) {
-    this.todoService.remove(todo)
+  modalRemoverTodo(todo: Todo) {
+    this.todoRemover = todo;
+  }
+
+  clearRemove() {
+    this.todoRemover = undefined;
+  }
+
+  remove() {
+    this.todoService.remove(this.todoRemover)
       .subscribe((response: any) => {
         if(response.ok) {
-          const index = this.todos.indexOf(todo);
+          const index = this.todos.indexOf(this.todoRemover);
           this.todos.splice(index, 1);
           this.notificationService.notify('Tarefa removida com sucesso!');
         }
