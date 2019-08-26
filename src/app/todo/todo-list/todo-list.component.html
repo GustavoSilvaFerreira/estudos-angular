@@ -14,7 +14,7 @@
           <label class="custom-control-label ml-3" for="customCheck{{todo._id}}" [class.text-through]="todo.done">{{ todo.description }}</label>
         </div>
         <div class="col-4 text-right">
-          <a (click)="remove(todo)" class="btn btn-sm text-danger cursor-pointer"><i class="fa fa-remove"></i></a>
+          <a data-toggle="modal" data-target="#removerTarefa" (click)="remove(todo)" class="btn btn-sm text-danger cursor-pointer"><i class="fa fa-remove"></i></a>
         </div>
       </div>
     </li>

@@ -1,5 +1,11 @@
 <div class="container">
   <app-add-todo (emitAdd)="addTodo($event)" [todos]="todos" [loadingAdd]="loadingAdd"></app-add-todo>
 
-  <app-todo-list (emitRemove)="remove($event)" (emitTaskDone)="taskDone($event)" #todoList [todos]="todos"></app-todo-list>
+  <app-todo-list (emitRemove)="modalRemoverTodo($event)" (emitTaskDone)="taskDone($event)" #todoList [todos]="todos"></app-todo-list>
+
+  <app-modal [id]="'removerTarefa'"
+              [message]="'Tem certeza que deseja remover?'"
+              [title]="'Tarefa'"
+              (emitOk)="remove()"
+              (emitClose)="clearRemove()"></app-modal>
 </div>
