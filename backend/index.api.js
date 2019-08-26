@@ -129,8 +129,10 @@ async function main() {
                 },
                 handler: async (request) => {
                     try {
-                        const { query } = request
+                        let { query } = request
                         const { skip, limit } = query
+                        query.id = request.auth.credentials.id;
+
 
                         // por padrão tudo que vem da web vem como string temos que fazer o mapeamento manual
                         // o mongoDb não deixa usar mais string para esse caso
@@ -162,7 +164,9 @@ async function main() {
                 },
                 handler: async (request, h) => {
                     try {
-                        const { payload } = request
+                        let { payload } = request
+                        payload.user = request.auth.credentials.id;
+
                         const v = await database.cadastrar(payload)
                         // código correto para cadastrado (created)
                         return h.response(v).code(201)
@@ -261,16 +265,16 @@ async function main() {
                 },
                 async handler({payload: { usuario, senha }}) {
                     try {
-                        const user = databaseUsers.listar({name: usuario, password: senha});
-                        console.log(user);
+                        const user = await databaseUsers.listar({name: usuario, password: senha});
+                        const id = user[0]._id.toString();
 
-                        if(usuario !== USER.usuario || senha !== USER.senha) {
+                        if(user.length === 0) {
                             return Boom.unauthorized()
                         }
 
-                        const tokenPayoad = {usuario}
+                        const tokenPayload = {usuario, id}
 
-                        const token = Jwt.sign(tokenPayoad, MINHA_CHAVE_SECRETA, {
+                        const token = Jwt.sign(tokenPayload, MINHA_CHAVE_SECRETA, {
                             expiresIn: '900s',// 15 min
                         });
 

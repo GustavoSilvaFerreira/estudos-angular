@@ -30,6 +30,9 @@ class TaskDb {
                         }
                     }
         }
+        if(task.id) {
+            filtro = { user: task.id }
+        }
         return this.taskCollection
                     .find(filtro)
                     .skip(parseInt(skip))
