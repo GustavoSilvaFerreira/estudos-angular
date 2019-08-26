@@ -7,7 +7,15 @@
     <input type="text" class="form-control" [class.is-invalid]="todoExists || (todoForm.get('description').invalid && todoForm.get('description').touched)" [class.is-valid]="todoForm.valid" formControlName="description" id="description" placeholder="Digite a tarefa">
   </div>
 
-  <button (click)="addTodo()"  class="btn btn-primary mb-2" [disabled]="!formValid() || todoExists">add <i class="fa fa-plus"></i></button>
+  <button (click)="addTodo()"  class="btn btn-primary mb-2" [disabled]="!formValid() || todoExists">
+    <span *ngIf="!loadingAdd" >
+      add <i class="fa fa-plus"></i>
+    </span>
+    <span *ngIf="loadingAdd" >
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      <span class="sr-only">Loading...</span>
+    </span>
+  </button>
 </form>
 
 <div>

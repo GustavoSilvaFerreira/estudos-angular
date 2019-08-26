@@ -11,6 +11,7 @@ import { Todo } from '../todo.model';
 export class AddTodoComponent implements OnInit {
 
   @Input() todos: Todo[] = [];
+  @Input() loadingAdd = false;
   @Output() emitAdd = new EventEmitter<Todo>();
 
   todoForm: FormGroup;

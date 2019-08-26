@@ -1,10 +1,10 @@
 <div *ngIf="todos?.length > 0" >
 
   <h2>Lista de tarefas: <span class="badge badge-secondary bg-orange">{{ totalTodos() }}</span>
-    <p>
+    <span class="ml-2 pl-2 pr-2 pb-1 border rounded">
       <small>Feitas: <span class="badge badge-secondary bg-success mr-2">{{ totalTodos(true) }}</span></small>
       <small>Restantes: <span class="badge badge-secondary bg-danger">{{ totalTodos(false) }}</span></small>
-    </p>
+    </span>
   </h2>
   <ul class="list-group list-group-flush">
     <li class="list-group-item" *ngFor='let todo of todos' [@addTodo]="addTodoState">
@@ -20,5 +20,7 @@
     </li>
   </ul>
 </div>
+
+<app-spinner class="m-5" [spinnerStatus]="todos === undefined"></app-spinner>
 
 <app-message [message]="['Não há tarefas para exibir!']" [hidden]="todos === undefined || todos?.length > 0"></app-message>

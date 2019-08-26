@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MessageComponent } from './message/message.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SnackbarComponent } from './snackbar/snackbar.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
     MessageComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule
@@ -15,6 +17,7 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
   exports: [
     MessageComponent,
     SnackbarComponent,
+    SpinnerComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule

@@ -11,6 +11,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
 export class TodoComponent implements OnInit {
 
   todos: Todo[];
+  loadingAdd = false;
 
   constructor(private todoService: TodoService,
               private notificationService: NotificationService) {}
@@ -27,12 +28,16 @@ export class TodoComponent implements OnInit {
   }
 
   addTodo(todo) {
+    this.loadingAdd = true;
+
     this.todoService.addTodo(todo)
     .subscribe((response: any) => {
         if(response.ok) {
           todo._id = response.insertedId;
           this.todos.push(todo);
           this.notificationService.notify('Tarefa adicionada com sucesso!');
+
+          this.loadingAdd = false;
         }
       });
   }
