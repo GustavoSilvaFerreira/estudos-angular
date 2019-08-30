@@ -4,16 +4,19 @@ Instalar o mongoDb `https://www.mongodb.com/`.
 
 ## Instruções para rodar o projeto
 
-No diretório raiz
+**No diretório raiz**
 `npm install` para instalar as dependências.
 `ng serve` para rodar o projeto. 
-Após isso acesse `http://localhost:4200/`.
+**Após isso acesse** `http://localhost:4200/`.
 
 ## Instruções para rodar a API
 
-No diretório backend
+**No diretório backend**
 `npm install` para instalar as dependências.
 `npm start` para rodar o projeto.
+
+**Documentação API**
+`http://localhost:3000/v1/documentation`
 
 ## Build
 
