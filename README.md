@@ -7,7 +7,7 @@
 
 **No diretório raiz**  
 `npm install` para instalar as dependências.  
-`ng serve` para rodar o projeto. 
+`ng serve` para rodar o projeto.  
 **Após isso acesse**  
 `http://localhost:4200/`.
 
