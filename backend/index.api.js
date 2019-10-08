@@ -61,12 +61,16 @@ const defaultHeader = Joi.object({
 async function main() {
     try {
         const database = new Db()
-        await database.connect()
-        console.log('Database conectado!');
+        const databaseConnect = await database.connect()
 
         const databaseUsers = new userDb()
-        await databaseUsers.connect()
-        console.log('Database users conectado!');
+        const databaseUsersConnect = await databaseUsers.connect()
+
+        if(databaseUsersConnect && databaseConnect) {
+          console.log('Database task and users connected!');
+        } else {
+          throw('Não conectou as bases!')
+        }
 
         await app.register([
             HapiJwt,
@@ -98,7 +102,7 @@ async function main() {
                 }
             }
         })
-        app.auth.default('jwt')
+        // app.auth.default('jwt')
 
         // vamos definir as rotas
         app.route([
@@ -137,6 +141,59 @@ async function main() {
                         // por padrão tudo que vem da web vem como string temos que fazer o mapeamento manual
                         // o mongoDb não deixa usar mais string para esse caso
                         return database.listar(query, skip, limit)
+                    } catch (error) {
+                        console.error('Erro: ', error)
+                        return Boom.internal();
+                    }
+                }
+            },
+            {
+                // http://localhost:3000/v1/tasks?description=tarefa
+                // http://localhost:3000/v1/tasks?skip=1&limit=2
+                path: '/v1/picture',
+                method: 'GET',
+
+                config: {
+                    // auth: false,
+                    tags: ['api'],
+                    description: 'Listar fotos instagram',
+                    notes: 'Retorna as fotos',
+                    validate: {
+                        // por padrão o Hapi nao mostra os erros então manipulamos a função para mostrar
+                        failAction: (request, h, err) => {
+                            throw err
+                        },
+                        // podemos validar headers, query, payload e params
+                        query: {
+                            description: Joi.string().min(2),
+                            skip: Joi.number().default(0),
+                            limit: Joi.number().max(10).default(10)
+                        },
+                        // headers: defaultHeader
+                    }
+                },
+                handler: async (request) => {
+                    try {
+                      // Carregando o File System
+                      var fs = require("fs");
+                      // Lê o conteúdo do diretório retornando um array de string de arquivos.
+                      // Obs.: Essa leitura é Não-Bloqueante, por isso retorna via callback.
+                      // fs.readdir("/home/user", function(err, files){
+                      //   console.log(files);
+                      // });
+                      // A mesma função, executada de forma Bloqueante.
+                      var files = fs.readdirSync("C:/xampp/htdocs/img/marinalvafaz60");
+                      console.log(files);
+
+                      return files;
+
+                        // por padrão tudo que vem da web vem como string temos que fazer o mapeamento manual
+                        // o mongoDb não deixa usar mais string para esse caso
+                        // return [
+                        //         'imagem_1.png',
+                        //         'imagem_2.jpg',
+                        //         'imagem_3.png'
+                        //       ];
                     } catch (error) {
                         console.error('Erro: ', error)
                         return Boom.internal();
@@ -275,7 +332,7 @@ async function main() {
                         const tokenPayload = {usuario, id}
 
                         const token = Jwt.sign(tokenPayload, MINHA_CHAVE_SECRETA, {
-                            expiresIn: '900s',// 15 min
+                            // expiresIn: '900s',// 15 min
                         });
 
                         return {token}

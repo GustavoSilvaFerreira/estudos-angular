@@ -13,6 +13,7 @@ class TaskDb {
 
         // adicionamos o task para a instancia da classe
         this.taskCollection = taskCollection;
+        return connection;
     }
 
     async cadastrar(task) {

@@ -13,6 +13,7 @@ class UserDb {
 
         // adicionamos o user para a instancia da classe
         this.userCollection = userCollection;
+        return connection;
     }
 
     async cadastrar(user) {
