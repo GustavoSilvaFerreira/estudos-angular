@@ -60,17 +60,17 @@ const defaultHeader = Joi.object({
 
 async function main() {
     try {
-        const database = new Db()
-        const databaseConnect = await database.connect()
+        // const database = new Db()
+        // const databaseConnect = await database.connect()
 
-        const databaseUsers = new userDb()
-        const databaseUsersConnect = await databaseUsers.connect()
+        // const databaseUsers = new userDb()
+        // const databaseUsersConnect = await databaseUsers.connect()
 
-        if(databaseUsersConnect && databaseConnect) {
-          console.log('Database task and users connected!');
-        } else {
-          throw('Não conectou as bases!')
-        }
+        // if(databaseUsersConnect && databaseConnect) {
+        //   console.log('Database task and users connected!');
+        // } else {
+        //   throw('Não conectou as bases!')
+        // }
 
         await app.register([
             HapiJwt,
@@ -176,14 +176,49 @@ async function main() {
                     try {
                       // Carregando o File System
                       var fs = require("fs");
+
+                      // EQUIVALE A RM -RF
+                      var rimraf = require("rimraf");
+
                       // Lê o conteúdo do diretório retornando um array de string de arquivos.
                       // Obs.: Essa leitura é Não-Bloqueante, por isso retorna via callback.
                       // fs.readdir("/home/user", function(err, files){
                       //   console.log(files);
                       // });
                       // A mesma função, executada de forma Bloqueante.
-                      var files = fs.readdirSync("C:/xampp/htdocs/img/marinalvafaz60");
-                      console.log(files);
+                      
+                      // RENOMEAR
+                        // fs.chmodSync('C:/xampp/htdocs/img/4K Stogram/#marinalvafaz60', '777');
+                        // fs.chmodSync('C:/xampp/htdocs/img/marinalvafaz60', '777');
+
+                        var oldPath = 'C:/xampp/htdocs/img/4K Stogram/#brasil';
+                        var newPath = 'C:/xampp/htdocs/img/marinalvafaz60';
+
+                        if ( fs.existsSync( oldPath ) ) {
+                            // exclui o diretório destino para depois copiar de novo
+                            if ( fs.existsSync( newPath ) ) {
+                                rimraf.sync(newPath);
+                            }
+
+                            // move o diretório base para o destino
+                            fs.rename(oldPath, newPath, function (err) {
+                                if (err) throw err
+                                console.log('Successfully renamed - AKA moved!')
+                            })
+                        }
+
+                      var files = fs.readdirSync(newPath);
+
+                    // remove tudo que não for PNG, JPG OU JPEG
+                      files = files.filter((file) => {
+                        const splitFile = file.split('.');
+                        const ext = splitFile[splitFile.length - 1];
+                        let valid = false;
+                        if(ext) {
+                            valid = ext === 'jpeg' || ext === 'jpg' || ext === 'png';
+                        }
+                        return valid;
+                      });
 
                       return files;
 
