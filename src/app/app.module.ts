@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginService } from './security/login/login.service';
 import { LoginComponent } from './security/login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { PictureInstagranComponent } from './picture-instagran/picture-instagran.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     FooterComponent,
     HomeComponent,
     LoginComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    PictureInstagranComponent
   ],
   imports: [
     BrowserModule,

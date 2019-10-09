@@ -12,6 +12,7 @@ export class TodoComponent implements OnInit {
 
   todos: Todo[];
   loadingAdd = false;
+  loadingTaskDone = false;
 
   todoRemover: Todo;
 
@@ -64,6 +65,8 @@ export class TodoComponent implements OnInit {
   }
 
   taskDone(todo: Todo) {
+    console.log(this);
+
     let status = todo.done === false ? 'feita' : 'não feita';
     this.todoService.taskDone(todo)
       .subscribe(() => {

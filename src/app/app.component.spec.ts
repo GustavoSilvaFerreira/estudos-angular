@@ -1,22 +1,39 @@
+import { NotificationService } from './shared/notification.service';
+import { HeaderComponent } from './header/header.component';
+import { LoginService } from './security/login/login.service';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { FooterComponent } from './footer/footer.component';
+import { SnackbarComponent } from './shared/snackbar/snackbar.component';
 
 describe('AppComponent', () => {
+  let mockLoginService;
+
   beforeEach(async(() => {
+    mockLoginService = jasmine.createSpyObj(['setUser']);
+
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        HeaderComponent,
+        SnackbarComponent,
+        FooterComponent
       ],
+      providers: [
+        NotificationService,
+        { provide: LoginService, useValue: mockLoginService }
+      ]
     }).compileComponents();
   }));
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
+    mockLoginService.setUser.and.returnValue('user');
     expect(app).toBeTruthy();
   });
 
@@ -24,12 +41,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('todo-list');
-  });
-
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to todo-list!');
   });
 });

@@ -39,6 +39,7 @@ export class AddTodoComponent implements OnInit {
       })
     });
 
+    // Pesquisar como testar valueChanges
     this.todoForm.controls.description.valueChanges
     .subscribe((t) => {
       this.todoExists = this.todos.filter((todo) => {

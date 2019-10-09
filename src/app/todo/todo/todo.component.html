@@ -4,8 +4,8 @@
   <app-todo-list (emitRemove)="modalRemoverTodo($event)" (emitTaskDone)="taskDone($event)" #todoList [todos]="todos"></app-todo-list>
 
   <app-modal [id]="'removerTarefa'"
-              [message]="'Tem certeza que deseja remover?'"
-              [title]="'Tarefa'"
+              [message]="'Tem certeza que deseja excluir?'"
+              [title]="'Excluir tarefa'"
               (emitOk)="remove()"
               (emitClose)="clearRemove()"></app-modal>
 </div>
