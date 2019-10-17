@@ -60,17 +60,17 @@ const defaultHeader = Joi.object({
 
 async function main() {
     try {
-        // const database = new Db()
-        // const databaseConnect = await database.connect()
+        const database = new Db()
+        const databaseConnect = await database.connect()
 
-        // const databaseUsers = new userDb()
-        // const databaseUsersConnect = await databaseUsers.connect()
+        const databaseUsers = new userDb()
+        const databaseUsersConnect = await databaseUsers.connect()
 
-        // if(databaseUsersConnect && databaseConnect) {
-        //   console.log('Database task and users connected!');
-        // } else {
-        //   throw('Não conectou as bases!')
-        // }
+        if(databaseUsersConnect && databaseConnect) {
+          console.log('Database task and users connected!');
+        } else {
+          throw('Não conectou as bases!')
+        }
 
         await app.register([
             HapiJwt,
@@ -102,7 +102,7 @@ async function main() {
                 }
             }
         })
-        // app.auth.default('jwt')
+        app.auth.default('jwt')
 
         // vamos definir as rotas
         app.route([
@@ -169,7 +169,7 @@ async function main() {
                             skip: Joi.number().default(0),
                             limit: Joi.number().max(10).default(10)
                         },
-                        // headers: defaultHeader
+                        headers: defaultHeader
                     }
                 },
                 handler: async (request) => {
@@ -186,7 +186,7 @@ async function main() {
                       //   console.log(files);
                       // });
                       // A mesma função, executada de forma Bloqueante.
-                      
+
                       // RENOMEAR
                         // fs.chmodSync('C:/xampp/htdocs/img/4K Stogram/#marinalvafaz60', '777');
                         // fs.chmodSync('C:/xampp/htdocs/img/marinalvafaz60', '777');
