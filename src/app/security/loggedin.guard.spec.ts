@@ -33,6 +33,16 @@ describe('LoggedinGuard', () => {
     expect(guard.checkAuthentication).toHaveBeenCalled();
   });
 
+  it('should call checkAuthentication and call loginService.isLoggedIn()', () => {
+    guard.checkAuthentication();
+    expect(mockLoginService.isLoggedIn).toHaveBeenCalled();
+  });
+
+  it('should call checkAuthentication and call loginService.handleLogin()', () => {
+    guard.checkAuthentication();
+    expect(mockLoginService.handleLogin).toHaveBeenCalled();
+  });
+
   it('should call canLoad', () => {
     spyOn(guard, 'canLoad');
     mockLoginService.isLoggedIn.and.returnValue(of(true));
@@ -41,12 +51,26 @@ describe('LoggedinGuard', () => {
     expect(guard.canLoad).toHaveBeenCalled();
   });
 
+  it('should call canLoad and call checkAuthentication', () => {
+    spyOn(guard, 'checkAuthentication');
+    // mockLoginService.isLoggedIn.and.returnValue(of(true));
+    guard.canLoad();
+    expect(guard.checkAuthentication).toHaveBeenCalled();
+  });
+
   it('should call canActivate', () => {
     spyOn(guard, 'canActivate');
     mockLoginService.isLoggedIn.and.returnValue(of(true));
 
     guard.canActivate(null, null);
     expect(guard.canActivate).toHaveBeenCalled();
+  });
+
+  it('should call canActivate and call checkAuthentication', () => {
+    spyOn(guard, 'checkAuthentication');
+    // mockLoginService.isLoggedIn.and.returnValue(of(true));
+    guard.canActivate(null, null);
+    expect(guard.checkAuthentication).toHaveBeenCalled();
   });
 
 });
