@@ -1,5 +1,5 @@
 import { LoginService } from './login/login.service';
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { LoggedinGuard } from './loggedin.guard';
 import { of } from 'rxjs';
@@ -34,11 +34,18 @@ describe('LoggedinGuard', () => {
   });
 
   it('should call checkAuthentication and call loginService.isLoggedIn()', () => {
+    mockLoginService.isLoggedIn.and.callFake(() => {
+      return true;
+    });
     guard.checkAuthentication();
     expect(mockLoginService.isLoggedIn).toHaveBeenCalled();
   });
 
   it('should call checkAuthentication and call loginService.handleLogin()', () => {
+    mockLoginService.isLoggedIn.and.callFake(() => {
+      return false;
+    });
+
     guard.checkAuthentication();
     expect(mockLoginService.handleLogin).toHaveBeenCalled();
   });

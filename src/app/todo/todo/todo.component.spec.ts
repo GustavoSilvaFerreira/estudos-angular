@@ -20,15 +20,16 @@ describe('TodoComponent', () => {
   let mockTodoService;
   let mockNotificationService;
 
-  let todos: Todo[] = [
-    {_id: 1, description: 'task 1', done: false},
-    {_id: 2, description: 'task 2', done: true},
-    {_id: 3, description: 'task 3', done: false},
-  ];
+  let todos: Todo[] = [];
 
   beforeEach(async(() => {
     mockTodoService = jasmine.createSpyObj(['getTodos', 'addTodo', 'remove', 'taskDone']);
     mockNotificationService = jasmine.createSpyObj(['notify']);
+    todos = [
+      {_id: 1, description: 'task 1', done: false},
+      {_id: 2, description: 'task 2', done: true},
+      {_id: 3, description: 'task 3', done: false},
+    ];
 
     TestBed.configureTestingModule({
       declarations: [ TodoComponent, AddTodoComponent, TodoListComponent ],
@@ -132,12 +133,13 @@ describe('TodoComponent', () => {
       expect(component.remove).toHaveBeenCalled();
     });
 
-    // it('should remove todo', () => {
-    //   mockTodoService.remove.and.returnValue(of({ok: true}));
-    //   component.todoRemover = todos[0];
-    //   component.remove();
-    //   expect(component.todos.length).toBe(2);
-    // });
+    it('should call remove and call todoService.remove', () => {
+      mockTodoService.remove.and.returnValues(of(true));
+      component.todoRemover = todos[0];
+      component.remove();
+      fixture.detectChanges();
+      expect(mockTodoService.remove).toHaveBeenCalledWith(todos[0]);
+    });
   });
 
   describe('taskDone()', () => {
@@ -145,6 +147,18 @@ describe('TodoComponent', () => {
       spyOn(component, 'taskDone');
       component.taskDone(todos[0]);
       expect(component.taskDone).toHaveBeenCalledWith(todos[0]);
+    });
+
+    it('should call taskDone and call todoService.taskDone', () => {
+      mockTodoService.taskDone.and.returnValues(of(true));
+      component.taskDone(todos[0]);
+      expect(mockTodoService.taskDone).toHaveBeenCalledWith(todos[0]);
+    });
+
+    it('should call taskDone and call todoService.taskDone and task done true', () => {
+      mockTodoService.taskDone.and.returnValues(of(true));
+      component.taskDone(todos[1]);
+      expect(mockTodoService.taskDone).toHaveBeenCalledWith(todos[1]);
     });
   });
 });

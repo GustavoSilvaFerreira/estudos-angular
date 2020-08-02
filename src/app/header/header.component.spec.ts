@@ -44,6 +44,12 @@ describe('HeaderComponent', () => {
     expect(component.logout).toHaveBeenCalled();
   });
 
+  it('should call loginService.logout in the call logout()', () => {
+    mockLoginService.logout.and.returnValue(of(true));
+    component.logout();
+    expect(mockLoginService.logout).toHaveBeenCalled();
+  });
+
   it('should call getUser', () => {
     spyOn(component, 'getUser');
     mockLoginService.getUser.and.returnValue('Gustavo');

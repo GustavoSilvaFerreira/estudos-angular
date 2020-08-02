@@ -11,9 +11,9 @@ import { of } from 'rxjs';
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let mockLoginService;
   let formLogin: FormGroup;
   let userIncorrect: boolean;
+  let mockLoginService;
 
   beforeEach(async(() => {
     mockLoginService = jasmine.createSpyObj(['isLoggedIn', 'login', 'setUser']);
@@ -30,7 +30,7 @@ describe('LoginComponent', () => {
       ],
       providers: [
         NotificationService,
-        { provide: LoginService, useValue: mockLoginService }
+        { provide: LoginService, useValue: mockLoginService },
       ]
     })
     .compileComponents();
@@ -52,10 +52,18 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call login', () => {
-    spyOn(component, 'login');
-    mockLoginService.login.and.returnValue(of(true));
-    component.login();
-    expect(component.login).toHaveBeenCalled();
+  describe('Login', () => {
+    it('should call login', () => {
+      spyOn(component, 'login');
+      mockLoginService.login.and.returnValue(of(true));
+      component.login();
+      expect(component.login).toHaveBeenCalled();
+    });
+
+    it('should call login and call loginService.login', () => {
+      mockLoginService.login.and.returnValue(of(true));
+      component.login();
+      expect(mockLoginService.login).toHaveBeenCalled();
+    });
   });
 });

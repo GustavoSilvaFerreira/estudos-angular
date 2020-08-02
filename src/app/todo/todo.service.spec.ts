@@ -117,5 +117,12 @@ describe('TodoService', () => {
 
       httpTestingController.verify();
     });
+
+    it('should call taskDone with correct url and task done true', () => {
+      service.taskDone(TODOS[1]).subscribe();
+      httpTestingController.expectOne(`${URL_API}/tasks/${TODOS[1]._id}`);
+
+      httpTestingController.verify();
+    });
   });
 });
